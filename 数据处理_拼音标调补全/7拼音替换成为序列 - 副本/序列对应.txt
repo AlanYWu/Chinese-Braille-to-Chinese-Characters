@@ -1,0 +1,12 @@
+0->轻声a e i o u ü
+1->一声ā ō ē ī ū ǖ
+2->二声á ó é í ú ǘ
+3->三声ǎ ǒ ě ǐ ǔ ǚ
+4->四声à ò è ì ù ǜ
+
+a，o，e，i ，u，ü
+ai，ei，ui，ao，ou，iu，ie，üe，er
+an，en，in，un，ün，ang，eng，ing，ong
+#ā á ǎ à ō ó ǒ ò ê ē é ě è ī í ǐ ì ū ú ǔ ù ǖ ǘ ǚ ǜ ü 
+#1->一声ā ē ī ō ū ǖ āi ēi uī āo ōu iū iē üē ēr ān ēn īn ūn ün āng ēng īng ōng
+#2->二声á é í ó ú ǘ ái éi uí áo ōu iú ié üé ér án én ín ún ün áng éng íng ōng
