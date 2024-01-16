@@ -5,7 +5,7 @@ import os
 
 def convert_to_braille_unicode(str_input: str, path: str = "./src/utils/braille_map.json") -> str:
     print(os.getcwd())
-    with open(path, "r") as fl:
+    with open(path, "rb") as fl:
         data = json.load(fl)
 
     if str_input in data.keys():
