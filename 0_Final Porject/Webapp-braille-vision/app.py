@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 # constants
 CONF = 0.15 # or other desirable confidence threshold level
-MODEL_PATH = "./weights/yolov8_braille.pt"
+MODEL_PATH = "./models/yolov8_braille.pt"
 # IMAGE_PATH = "./assets/alpha-numeric.jpeg"
 
 model = YOLO(MODEL_PATH)
