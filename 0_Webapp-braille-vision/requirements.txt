@@ -1,6 +1,10 @@
-Flask~=2.3.2
-keras~=2.12.0
-tensorflow~=2.12.0
-numpy~=1.23.5
-Pillow~=9.5.0
-gevent~=22.10.2
+Flask==3.0.0
+gevent==23.9.1
+numpy==1.26.3
+Pillow==10.0.1
+Pillow==10.1.0
+Pillow==10.2.0
+torch==2.1.1
+ultralytics==8.0.238
+ultralytics==8.0.43
+Werkzeug==3.0.1
