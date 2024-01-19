@@ -103,6 +103,6 @@ def predict():
 # 运行Flask应用程序的主入口点
 if __name__ == '__main__':
     # 使用gevent WSGI服务器提供应用
-    http_server = WSGIServer(('0.0.0.0', 5000), app)
+    http_server = WSGIServer(('127.0.0.1', 5000), app)
     http_server.serve_forever()
 
