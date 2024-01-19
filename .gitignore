@@ -24,9 +24,8 @@ instance/
 
 # Custom data directory
 uploads/*
-log/
-log_embedding_dim_10-170/
-Final Project/
+/log_LSTM模型运行数据
+/Final Project
 
 
 
