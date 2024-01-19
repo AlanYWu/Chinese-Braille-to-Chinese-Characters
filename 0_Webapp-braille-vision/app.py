@@ -1,6 +1,3 @@
-import os
-import sys
-
 # Flask网络框架和用于处理HTTP请求和响应的工具
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect
 from werkzeug.utils import secure_filename
@@ -94,8 +91,10 @@ def api_predict():
         return jsonify({'error': '没有选择文件'}), 400
 
     # 使用YOLO模型进行预测
-    image = Image.open(io.BytesIO(file.read()))
-    result = model_predict(image, model)
+    # image = Image.open(io.BytesIO(file.read()))
+    img = base64_to_pil(request.json)
+    result = model_predict(img, model)
+
 
     # 返回预测结果
     return jsonify({'result': result})
