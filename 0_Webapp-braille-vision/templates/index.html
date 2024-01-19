@@ -7,7 +7,8 @@
       <small>A web app demo</small>
     </p> -->
   </div>
-
+  <!-- Include about us -->
+  <a href="{{ url_for('about') }}" class="btn btn-primary">About Us</a>
   <div class="panel">
     <input id="file-upload" class="hidden" type="file" accept="image/x-png,image/gif,image/jpeg" />
     <label for="file-upload" id="file-drag" class="upload-box">
@@ -27,6 +28,7 @@
       <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
     </svg>
   </div>
+  
 </div>
 
 {% endblock %}
