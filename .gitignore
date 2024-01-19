@@ -1,0 +1,33 @@
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Editors
+.vscode/
+.idea/
+
+# Custom data directory
+uploads/*
+log/
+log_embedding_dim_10-170/
+Final Project/
+
+
+
+
