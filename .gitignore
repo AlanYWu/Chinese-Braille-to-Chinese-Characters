@@ -24,8 +24,8 @@ instance/
 
 # Custom data directory
 uploads/*
-/log_LSTM模型运行数据
-/Final Project
+# /.log_LSTM模型运行数据
+Final Porject/
 
 
 
