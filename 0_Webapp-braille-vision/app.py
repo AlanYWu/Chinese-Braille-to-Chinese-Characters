@@ -25,26 +25,6 @@ MODEL_PATH = "./models/yolov8_braille.pt"  # 训练好的YOLO模型的路径
 model = YOLO(MODEL_PATH)
 
 print('模型已加载。请访问 http://127.0.0.1:5000/')
-
-#api
-#Henry 240118 2230
-@app.route('/api/predict', methods=['POST'])
-def api_predict():
-    if 'file' not in request.files:
-        return jsonify({'error': '没有文件部分'}), 400
-
-    file = request.files['file']
-    
-    # 确保文件的存在
-    if file.filename == '':
-        return jsonify({'error': '没有选择文件'}), 400
-
-    # 使用YOLO模型进行预测
-    image = Image.open(io.BytesIO(file.read()))
-    result = model_predict(image, model)
-
-    # 返回预测结果
-    return jsonify({'result': result})
     
 def load_image(IMAGE_PATH):
     """从指定的文件路径加载图像。"""
@@ -99,6 +79,26 @@ def predict():
         return jsonify(result=result)
 
     return None
+
+#api
+#Henry 240118 2230
+@app.route('/api/predict', methods=['POST'])
+def api_predict():
+    if 'file' not in request.files:
+        return jsonify({'error': '没有文件部分'}), 400
+
+    file = request.files['file']
+    
+    # 确保文件的存在
+    if file.filename == '':
+        return jsonify({'error': '没有选择文件'}), 400
+
+    # 使用YOLO模型进行预测
+    image = Image.open(io.BytesIO(file.read()))
+    result = model_predict(image, model)
+
+    # 返回预测结果
+    return jsonify({'result': result})
 
 # 运行Flask应用程序的主入口点
 if __name__ == '__main__':
