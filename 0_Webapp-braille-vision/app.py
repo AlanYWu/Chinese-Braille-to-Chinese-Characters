@@ -2,6 +2,9 @@
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect
 from werkzeug.utils import secure_filename
 from gevent.pywsgi import WSGIServer
+from werkzeug.debug import DebuggedApplication
+
+
 
 import PIL  # 用于图像处理的Python图像处理库
 from ultralytics import YOLO  # 导入YOLO对象检测模型
@@ -102,6 +105,7 @@ def api_predict():
 # 运行Flask应用程序的主入口点
 if __name__ == '__main__':
     # 使用gevent WSGI服务器提供应用
-    http_server = WSGIServer(('0.0.0.0', 25565), app)
+    app.debug = True
+    http_server = WSGIServer(('0.0.0.0', 5000), DebuggedApplication(app, True))
     http_server.serve_forever()
 
