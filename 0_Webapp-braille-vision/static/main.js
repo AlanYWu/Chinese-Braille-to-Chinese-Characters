@@ -75,6 +75,37 @@ function clearImage() {
 
   imageDisplay.classList.remove("loading");
 }
+function previewFile_example() {
+  var preview = document.querySelector('#preview');
+  var file    = document.querySelector('#example-data-file').files[0];
+  var reader  = new FileReader();
+
+  reader.onloadend = function () {
+    preview.src = reader.result;
+  }
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    preview.src = "";
+  }
+}
+
+document.getElementById('example-data-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  var formData = new FormData();
+  formData.append('file', document.getElementById('example-data-file').files[0]);
+
+  fetch('/submit_example', {
+    method: 'POST',
+    body: formData
+  }).then(response => response.json()).then(data => {
+    console.log(data);
+  }).catch(error => {
+    console.error(error);
+  });
+});
 
 function previewFile(file) {
   // show the preview of the image

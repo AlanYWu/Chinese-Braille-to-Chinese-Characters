@@ -3,6 +3,7 @@ from flask import Flask, redirect, url_for, request, render_template, Response, 
 from werkzeug.utils import secure_filename
 from gevent.pywsgi import WSGIServer
 from werkzeug.debug import DebuggedApplication
+import os
 
 
 
@@ -63,7 +64,9 @@ def model_predict(img, model):
 @app.route('/', methods=['GET'])
 def index():
     """渲染Web应用程序的主页面。"""
-    return render_template('index.html')
+    image_files = os.listdir('example_data')
+    print(image_files)
+    return render_template('index.html', image_files=image_files)
 
 # 定义处理预测逻辑的预测路由
 @app.route('/predict', methods=['GET', 'POST'])
@@ -101,6 +104,25 @@ def api_predict():
 
     # 返回预测结果
     return jsonify({'result': result})
+
+
+@app.route('/submit_example', methods=['POST'])
+def submit_example():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
+
+    file = request.files['file']
+
+    # Ensure the file exists
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+
+    # Save the file
+    file.save(os.path.join('example_data', secure_filename(file.filename)))
+
+    return jsonify({'message': 'File has been saved successfully.'}), 200
+
+
 
 # 运行Flask应用程序的主入口点
 if __name__ == '__main__':

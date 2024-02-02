@@ -8,6 +8,15 @@
     </p> -->
   </div>
   <!-- Include about us -->
+  
+  <form id="example-data-form" method="post" enctype="multipart/form-data">
+    <input type="file" id="example-data-file" name="file" onchange="previewFile_example()">
+    <img id="preview" src="" height="200" alt="Image preview...">
+    {% for image_file in image_files %}
+    <img id="preview" src="{{ url_for('static', filename='example_data/' + image_file) }}" height="200" alt="Example image">
+    {% endfor %}
+    <input type="submit" value="Submit Example Data">
+  </form>
 
   <div class="panel">
     <input id="file-upload" class="hidden" type="file" accept="image/x-png,image/gif,image/jpeg" />

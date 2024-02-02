@@ -164,3 +164,10 @@ body {
     transform: rotate(90deg);
   }
 }
+
+#preview {
+  display: block;
+  margin: 10px 0;
+  max-width: 100%;
+  height: auto;
+}
