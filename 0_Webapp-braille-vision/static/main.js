@@ -176,3 +176,8 @@ function show(el) {
   // show an element
   el.classList.remove("hidden");
 }
+
+function selectImage(imageSrc) {
+  // Update the value of the hidden input field with the clicked image's source
+  document.getElementById('selected-image').value = imageSrc;
+}
