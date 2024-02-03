@@ -27,10 +27,10 @@ model = YOLO(MODEL_PATH)
 
 print('模型已加载。请访问 http://127.0.0.1:5000/')
     
-def load_image(IMAGE_PATH):
-    """从指定的文件路径加载图像。"""
-    image = PIL.Image.open(IMAGE_PATH)
-    return image
+# def load_image(IMAGE_PATH):
+#     """从指定的文件路径加载图像。"""
+#     image = PIL.Image.open(IMAGE_PATH)
+#     return image
 
 def model_predict(img, model):
     """
@@ -64,7 +64,7 @@ def model_predict(img, model):
 @app.route('/', methods=['GET'])
 def index():
     """渲染Web应用程序的主页面。"""
-    image_files = os.listdir('example_data')
+    image_files = os.listdir('./static/example_data')
     print(image_files)
     return render_template('index.html', image_files=image_files)
 
