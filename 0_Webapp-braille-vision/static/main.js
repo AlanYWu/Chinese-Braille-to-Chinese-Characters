@@ -36,6 +36,8 @@ var imagePreview = document.getElementById("image-preview");
 var imageDisplay = document.getElementById("image-display");
 var uploadCaption = document.getElementById("upload-caption");
 var predResult = document.getElementById("pred-result");
+var predResultCNP = document.getElementById("pred-result-cnp");
+var predResultENG = document.getElementById("pred-result-eng");
 var loader = document.getElementById("loader");
 
 //========================================================================
@@ -66,11 +68,15 @@ function clearImage() {
   imagePreview.src = "";
   imageDisplay.src = "";
   predResult.innerHTML = "";
+  predResultCNP.innerHTML = "";
+  predResultENG.innerHTML = "";
 
   hide(imagePreview);
   hide(imageDisplay);
   hide(loader);
   hide(predResult);
+  hide(predResultCNP);
+  hide(predResultENG);
   show(uploadCaption);
 
   imageDisplay.classList.remove("loading");
@@ -122,6 +128,8 @@ function previewFile(file) {
 
     // reset
     predResult.innerHTML = "";
+    predResultCNP.innerHTML = "";
+    predResultENG.innerHTML = "";
     imageDisplay.classList.remove("loading");
 
     displayImage(reader.result, "image-display");
@@ -165,8 +173,13 @@ function displayResult(data) {
   hide(loader);
   predResult.innerHTML = data.result;
   show(predResult);
-}
+  predResultCNP.innerHTML = data.CNP_Result;
+  show(predResultCNP);
+  predResultENG.innerHTML = data.ENG_Result;
+  show(predResultENG);
 
+}
+ 
 function hide(el) {
   // hide an element
   el.classList.add("hidden");
