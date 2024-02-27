@@ -97,6 +97,7 @@ It's also easy to customize and include your models in this app.
 
 <details>
  <summary>Details</summary>
+ The contents
 
 ### Use your own model
 
