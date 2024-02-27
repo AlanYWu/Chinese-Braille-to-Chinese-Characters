@@ -35,11 +35,11 @@ Or Click the link box below
 ## Flow Chart
 
 
-![alt text](braille-vision-flowchart_new.png)
+![alt text](img\braille-vision-flowchart_new.png)
 
 ## How to use the website
 
-![alt text](<格式工厂 屏幕录像20240227_101923 00_00_13-00_00_28.gif>)
+![alt text](<img\demonstration video.gif>)
 
 
 # Method
@@ -59,19 +59,20 @@ Output Gate:
 Integrates memory information to produce the final output.
 Enables the LSTM to capture long-distance computational relationships.
 
-![alt text](image.png)
+![alt text](<img/RNN structures.png>)
 
 LSTM Network Architecture; LSTM Structure Figure 3: Illustration of LSTM Structure
 
 Update Equations for Input Data at Time $t$
 
-![alt text](image-1.png)
+
+<img src="img\Update formula.png" width = 80%/>
 
 Where:
 $\sigma$ represents the *sigmoid function*. $\odot$ denotes element-wise multiplication. $x_t$ is the input vector at time $t$, which in our case is the word-embedded input vector. $h_t$ represents the hidden state, incorporating all previous states up to time $t$. $U$ and $W$ are the weights and biases for each layer.
 
 **Result after trianing**
-![alt text](image-2.png)
+![alt text](<img/training acc.png>)
 
 We applied word embedding to the pre-constructed data, representing similar words with similar vectors in a high-dimensional space. Using PyTorch, we built a neural network based on the LSTM architecture. The model underwent forward and backward propagation, optimizing weights and biases with Stochastic Gradient Descent. By experimenting with different word embedding dimensions, we observed significant performance gains. Increasing word vector layers improved the model’s understanding of Chinese character categorization.
 
