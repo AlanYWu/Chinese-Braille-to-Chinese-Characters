@@ -9,11 +9,13 @@ Vision Braille Project: Bridging Education for Blind Children
 
 # Introduction
 
+## Social Value
+
 In China, approximately 240,000 children between the ages of 0 and 17 face visual disabilities. Unfortunately, their educational opportunities remain limited to a handful of specialized schools. These schools often struggle to find qualified braille teachers, making education for blind students a challenging endeavor.
 
 Recognizing this gap, I embarked on the Vision Braille Project. The project aims to empower blind children by providing an innovative solution: a braille translation website. This platform facilitates communication between traditional schoolteachers and visually impaired students. 
 
-How It Works:
+## How It Works
 
 - Input Braille Text: Teachers upload written homework or assignments in braille to the website.
 - Instant Translation: The website swiftly translates the braille content into standard text (pinyin or Chinese characters).
@@ -22,18 +24,23 @@ By bridging this gap, the Vision Braille Project ensures that blind children can
 
 
 
-The tesing app is available at **[Vision Braille Project](http://154.12.37.165:5000/)**
+The tesing app is available at **[Vision Braille Project  http://154.12.37.165:5000/](http://154.12.37.165:5000/)**
 
-The demon is available at this website: http://154.12.37.165:5000/
+Or Click the link box below
 
 [![Vision Braille](https://img.shields.io/badge/-Vision%20Braille-blue)](http://154.12.37.165:5000/)
 
 
 
-# Flow Chart
+## Flow Chart
 
 
 ![alt text](braille-vision-flowchart_new.png)
+
+## How to use the website
+
+![alt text](<格式工厂 屏幕录像20240227_101923 00_00_13-00_00_28.gif>)
+
 
 # Method
 
@@ -102,7 +109,9 @@ We extend our heartfelt gratitude to the following individuals and institutions:
 Our Parents and Family: Thank you for your unwavering support.
 
 
-# Acknowledgement
+# Acknowledgement and Citation
+
+https://github.com/snoop2head/DotNeuralNet/tree/main
 
 
 
