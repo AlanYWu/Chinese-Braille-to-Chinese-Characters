@@ -35,11 +35,11 @@ Or Click the link box below
 ## Flow Chart
 
 
-![alt text](img\braille-vision-flowchart_new.png)
+![alt text](img\braille-vision-flowchart.png)
 
 ## How to use the website
 
-![alt text](<img\demonstration video.gif>)
+![alt text](<img\demonstration_video.gif>)
 
 
 # Method
@@ -113,6 +113,9 @@ Our Parents and Family: Thank you for your unwavering support.
 # Acknowledgement and Citation
 
 https://github.com/snoop2head/DotNeuralNet/tree/main
+
+The supporting fundation and organization
+
 
 
 
