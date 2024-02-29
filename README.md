@@ -34,7 +34,7 @@ Or Click the link box below
 
 ## Flow Chart
 
-![alt text](<img\braille-vision-flowchart.png>)
+<img src="img\braille-vision-flowchart.png" alt=""/>
 
 ## How to use the website
 
