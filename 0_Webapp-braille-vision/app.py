@@ -44,7 +44,7 @@ def model_predict(img, model):
     - result: 预测结果的字符串表示。
     """
     # 使用模型进行预测
-    res = model.predict(img, save=True, save_txt=True, exist_ok=True, conf=CONF)
+    res = model.predict(img, save=False, save_txt=False, exist_ok=True, conf=CONF)
     boxes = res[0].boxes  # 提取第一张图像的边界框
     list_boxes = parse_xywh_and_class(boxes)  # 解析框以获取类别和坐标
 
