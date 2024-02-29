@@ -34,12 +34,13 @@ Or Click the link box below
 
 ## Flow Chart
 
-
-![alt text](img\braille-vision-flowchart.png)
+![alt text](<img\braille-vision-flowchart.png>)
 
 ## How to use the website
 
-![alt text](<img\demonstration_video.gif>)
+<p align="center">
+  <img src="img\demonstration_video.gif" alt="">
+</p>
 
 
 # Method
