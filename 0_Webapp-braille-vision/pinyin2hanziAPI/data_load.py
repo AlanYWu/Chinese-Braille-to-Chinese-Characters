@@ -18,7 +18,7 @@ import re
 def load_vocab():
     import pickle
     if hp.isqwerty:
-        return pickle.load(open('data/vocab.qwerty.pkl', 'rb'))
+        return pickle.load(open('pinyin2hanziAPI/data/vocab.qwerty.pkl', 'rb'))
     else:
         return pickle.load(open('data/vocab.nine.pkl', 'rb'))
 

@@ -1,14 +1,13 @@
 from __future__ import print_function
 from hyperparams import Hyperparams as hp
-import tensorflow as tf
-import numpy as np
 from prepro import *
 from data_load import load_vocab, load_test_data, load_test_string
 from train import Graph
 import codecs
 import distance
 import os
-
+import tensorflow as tf
+import numpy as np
 
 
 #Evaluate on testing batches
@@ -52,7 +51,7 @@ def main_batches():
                                 
 
 #For user input test                
-def main(line):  
+def a(line):  
     g = Graph(is_training=False)
     
     # Load vocab
@@ -75,5 +74,6 @@ def main(line):
 
                                                                                                    
 if __name__ == '__main__':
-    main("nihao")
+    print("111111111111111")
+    a("nihao")
 
