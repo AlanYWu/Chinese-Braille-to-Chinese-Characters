@@ -6,16 +6,8 @@ from werkzeug.debug import DebuggedApplication
 import os
 import sys
 sys.path.append('./pinyin2hanziAPI')
-sys.path.append('./pinyin2hanziAPI/data')
-#sys.path.append('./pinyin2hanziAPI/log/qwerty')
-from pinyin2hanziAPI.server_braille_to_chinese_API import *
-print(a("nihao"))
-
-
-
-# from pinyin2hanziAPI import *
 import pinyin2hanziAPI.server_braille_to_chinese_API
-print(pinyin2hanziAPI.server_braille_to_chinese_API.a("nihao"))
+
 
 
 import PIL  # 用于图像处理的Python图像处理库
@@ -152,6 +144,7 @@ def BtoCNP(input):
             output += '*'
             print(i, 'notfound')
     return output
+        
 
 def BtoENG(brailleToEnglish):
     inputString = ''
@@ -178,6 +171,8 @@ def BtoENG(brailleToEnglish):
             elif n in characterBraille:
                 inputString += character[characterBraille.index(n)]
         return inputString
+
+
 
 
 # 定义Web应用程序的根路由
@@ -226,7 +221,8 @@ def api_predict():
     img = base64_to_pil(request.json)
     result = model_predict(img, model)
 
-    cnp_Result = BtoCNP(result)
+    
+    cnp_Result =  BtoCNP(result)
 
     eng_Result = BtoENG(result)
     # 返回预测结果

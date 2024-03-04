@@ -51,7 +51,7 @@ def main_batches():
                                 
 
 #For user input test                
-def a(line):  
+def main(line):  
     g = Graph(is_training=False)
     
     # Load vocab
@@ -75,5 +75,5 @@ def a(line):
                                                                                                    
 if __name__ == '__main__':
     print("111111111111111")
-    a("nihao")
+    main("nihao")
 

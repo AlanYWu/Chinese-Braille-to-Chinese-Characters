@@ -43,6 +43,14 @@ Or Click the link box below
 </p>
 
 
+
+## How to deploy the website
+
+
+## Future improvement
+Add the trnaslation from
+
+
 # Method
 
 ## Long Short-Term Memory (LSTM) Networks
