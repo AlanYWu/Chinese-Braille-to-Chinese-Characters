@@ -27,6 +27,8 @@ uploads/*
 # /.log_LSTM模型运行数据
 Final Porject/
 
+#The pinyin translation module
+Somiao-Pinyin-master/
 
 #labels.txt
 0_Webapp-braille-vision\runs\detect\predict\labels.txt
