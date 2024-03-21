@@ -171,3 +171,20 @@ body {
   max-width: 100%;
   height: auto;
 }
+
+#input-form {
+  margin-bottom: 20px;
+}
+
+#user-input {
+  width: 300px;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+#result {
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 300px;
+  min-height: 50px;
+}

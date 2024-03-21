@@ -7,6 +7,8 @@ import os
 import sys
 sys.path.append('./pinyin2hanziAPI')
 import pinyin2hanziAPI.server_braille_to_chinese_API
+result = pinyin2hanziAPI.server_braille_to_chinese_API.main("nihao")
+print(result)
 
 
 
@@ -245,6 +247,13 @@ def submit_example():
 
     return jsonify({'message': 'File has been saved successfully.'}), 200
 
+
+@app.route('/process', methods=['POST'])
+def process_input():
+    user_input = request.form.get('input')
+    result = pinyin2hanziAPI.server_braille_to_chinese_API.main(user_input)
+    print(result)
+    return jsonify({'result': result})
 
 
 # 运行Flask应用程序的主入口点

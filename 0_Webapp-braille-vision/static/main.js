@@ -136,6 +136,23 @@ function previewFile(file) {
   };
 }
 
+document.getElementById('input-form').addEventListener('submit', function(f) {
+  f.preventDefault();
+  var userInput = document.getElementById('user-input').value;
+  fetch('/process', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: 'input=' + encodeURIComponent(userInput),
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('result').textContent = data.result;
+  })
+  .catch(error => console.error('Error:', error));
+});
+
 //========================================================================
 // Helper functions
 //========================================================================
@@ -194,3 +211,4 @@ function selectImage(imageSrc) {
   // Update the value of the hidden input field with the clicked image's source
   document.getElementById('selected-image').value = imageSrc;
 }
+
