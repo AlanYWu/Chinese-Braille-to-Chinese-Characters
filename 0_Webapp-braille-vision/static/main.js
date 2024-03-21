@@ -136,23 +136,6 @@ function previewFile(file) {
   };
 }
 
-document.getElementById('input-form').addEventListener('submit', function(f) {
-  f.preventDefault();
-  var userInput = document.getElementById('user-input').value;
-  fetch('/process', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: 'input=' + encodeURIComponent(userInput),
-  })
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById('result').textContent = data.result;
-  })
-  .catch(error => console.error('Error:', error));
-});
-
 //========================================================================
 // Helper functions
 //========================================================================
@@ -176,6 +159,34 @@ function predictImage(image) {
       window.alert("Oops! Something went wrong.");
     });
 }
+
+
+// Henry 240321
+function py_translate(text) {
+  fetch("/py_translate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ "input": text }) // 将输入包装在对象中，以便与Flask后端对接
+  })
+    .then(resp => {
+      if (resp.ok) {
+        return resp.json(); // 解析JSON响应
+      } else {
+        throw new Error('Server response was not OK.');
+      }
+    })
+    .then(data => {
+      // 将返回的结果放在id为"result"的div中
+      document.getElementById("result").textContent = data.result;
+    })
+    .catch(err => {
+      console.log("An error occurred:", err.message);
+      window.alert("Oops! Something went wrong.");
+    });
+}
+
 
 function displayImage(image, id) {
   // display image on given id <img> element

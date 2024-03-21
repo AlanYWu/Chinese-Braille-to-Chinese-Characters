@@ -204,6 +204,18 @@ def predict():
 
     return None
 
+# 翻译所需的路由
+#Henry 240321 1900  程序极度不安全，有任意代码风险，建议此处1.增加输入验证；2.建议增加鉴权；3.别说是我写的
+@app.route('/py_translate', methods=['GET', 'POST'])
+def py_translate():
+
+    if request.method == 'POST':
+        input_data = request.json['input']  # 从JSON中获取输入
+
+        result = pinyin2hanziAPI.server_braille_to_chinese_API.main(input_data)
+
+    return jsonify({'result': result, 'input_data': input_data })  # 返回结果
+
 #api
 #Henry 240118 2230
 #Henry 20240203 2000 添加多结果

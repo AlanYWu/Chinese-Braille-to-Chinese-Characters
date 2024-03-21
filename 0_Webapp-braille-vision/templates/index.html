@@ -56,7 +56,10 @@
 
 <form id="input-form">
   <input type="text" id="user-input" placeholder="Enter your input here">
-  <button type="submit">Send</button>
+  <button type="button" onclick="py_translate(document.getElementById('user-input').value); document.getElementById('user-input').value = '';">Send</button>
 </form>
+
+
 <div id="result"></div>
+
 {% endblock %}
