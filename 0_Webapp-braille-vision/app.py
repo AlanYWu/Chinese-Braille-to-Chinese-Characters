@@ -7,8 +7,6 @@ import os
 import sys
 sys.path.append('./pinyin2hanziAPI')
 import pinyin2hanziAPI.server_braille_to_chinese_API
-result = pinyin2hanziAPI.server_braille_to_chinese_API.main("nihao")
-print(result)
 
 
 
@@ -19,6 +17,8 @@ from src.convert import convert_to_braille_unicode, parse_xywh_and_class  # 自�
 # 用于数值运算的NumPy库
 import numpy as np
 from util import base64_to_pil  # 将base64图像转换为PIL格式的工具
+
+import requests
 
 # 初始化一个Flask应用
 app = Flask(__name__)
@@ -68,6 +68,7 @@ def model_predict(img, model):
 # 翻译
 #Henry 240203 2000
 
+# 扔了 0628
 def BtoCNP(input):
 
     import io
@@ -147,7 +148,7 @@ def BtoCNP(input):
             print(i, 'notfound')
     return output
         
-
+# 这个也扔了 0628
 def BtoENG(brailleToEnglish):
     inputString = ''
 
@@ -174,9 +175,7 @@ def BtoENG(brailleToEnglish):
                 inputString += character[characterBraille.index(n)]
         return inputString
 
-
-
-
+# 这个也不用 0628
 # 定义Web应用程序的根路由
 @app.route('/', methods=['GET'])
 def index():
@@ -185,6 +184,8 @@ def index():
     print(image_files)
     return render_template('index.html', image_files=image_files)
 
+# Henry 240628 1520
+# 前端用的是这个api
 # 定义处理预测逻辑的预测路由
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
@@ -192,13 +193,26 @@ def predict():
         # 处理POST请求中接收的图像
         img = base64_to_pil(request.json)
 
-        # 使用模型预测结果
-        result = model_predict(img, model)
+        # 预留：向 get_string_from_api1 发送图片，获取一个string
 
+        raw_result = get_string_from_api1(img)
+
+        # 使用 split_braille_sentences 函数将字符串分割为句子
+
+        split_result = split_braille_sentences(raw_result)
+
+        # 预留：将分割后的句子发送给 get_string_from_api2，获取一个string
+
+        # 使用模型预测结果 [ab]
+        # result = model_predict(img, model)
+        final_result = get_string_from_api2(split_result)
         
-        cnp_Result = BtoCNP(result)
+        cnp_Result = BtoCNP(final_result)
 
-        eng_Result = BtoENG(result)
+        eng_Result = BtoENG(final_result)
+
+        result = final_result#太傻了
+        
         # 返回预测结果
         return jsonify({'result': result, 'CNP_Result': cnp_Result, 'ENG_Result': eng_Result})
 
@@ -219,6 +233,7 @@ def py_translate():
 #api
 #Henry 240118 2230
 #Henry 20240203 2000 添加多结果
+# 前端没用 0628
 @app.route('/api/predict', methods=['POST'])
 def api_predict():
     if 'file' not in request.files:
@@ -260,13 +275,56 @@ def submit_example():
     return jsonify({'message': 'File has been saved successfully.'}), 200
 
 
-@app.route('/process', methods=['POST'])
-def process_input():
-    user_input = request.form.get('input')
-    result = pinyin2hanziAPI.server_braille_to_chinese_API.main(user_input)
-    print(result)
-    return jsonify({'result': result})
+# henry 240628 1500
 
+# 获取图片参数 向api发送 获取一个string
+
+def get_string_from_api1(img):
+    # 向 api.example.com 发送图片
+    response = requests.post('http://api.example.com', data=img)
+
+    # 获取返回的字符串
+
+    return response.text
+
+# 获取一个列表，每一次发送一个string，返回一个string，最后将所有string拼接在一起
+
+def get_string_from_api2(string_list):
+    result = ""
+    for string in string_list:
+        response = requests.post('http://api2.example.com', data=string)
+        result += response.text
+    return result
+
+def split_braille_sentences(input_string):
+    # 定义 Braille 标点符号
+    braille_punctuation = {"⠐⠆": ".", "⠐⠄": "?", "⠰⠂": "!"}
+    
+    # 初始化临时字符串和结果列表
+    temp_sentence = ""
+    result = []
+    
+    # 遍历输入字符串中的每个字符
+    i = 0
+    while i < len(input_string):
+        # 检查是否遇到 Braille 标点符号
+        for braille_symbol, punctuation in braille_punctuation.items():
+            if input_string[i:i+len(braille_symbol)] == braille_symbol:
+                # 如果遇到标点符号，将当前句子添加到结果列表
+                result.append(temp_sentence.strip() + punctuation)
+                temp_sentence = ""
+                i += len(braille_symbol)
+                break
+        else:
+            # 如果没有遇到标点符号，则添加当前字符到临时字符串
+            temp_sentence += input_string[i]
+            i += 1
+    
+    # 添加最后一个句子（如果有的话）
+    if temp_sentence.strip():
+        result.append(temp_sentence.strip())
+    
+    return result
 
 # 运行Flask应用程序的主入口点
 if __name__ == '__main__':
@@ -274,4 +332,3 @@ if __name__ == '__main__':
     app.debug = True
     http_server = WSGIServer(('0.0.0.0', 5000), DebuggedApplication(app, True))
     http_server.serve_forever()
-

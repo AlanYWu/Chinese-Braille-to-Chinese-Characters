@@ -53,14 +53,16 @@
   
 </div>
 
+<!--- 翻译 --->>
+<div style="display: flex; justify-content: center; align-items: center; height: 5vh;">
+  <form id="input-form">
+    <input type="text" id="user-input" placeholder="Enter your pinyin input here">
+    <p>The translation process takes about 10 seconds</p>
+    <button type="button" onclick="py_translate(document.getElementById('user-input').value); document.getElementById('user-input').value = '';">Send</button>
+  </form>
+  
+</div>
 
-<form id="input-form">
-  <input type="text" id="user-input" placeholder="Enter your input here">
-  <p>这玩意巨慢</p>
-  <button type="button" onclick="py_translate(document.getElementById('user-input').value); document.getElementById('user-input').value = '';">Send</button>
-</form>
-
-
-<div id="result"></div>
-
+<div id="result"></div>  
+<!-- 这里应该怎么改？ -->
 {% endblock %}
