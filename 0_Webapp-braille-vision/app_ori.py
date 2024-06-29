@@ -190,8 +190,14 @@ def index():
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
+        # post the image to the server
+        image = request.files['file']
+        image.save(os.path.join('./static/example_data', secure_filename(image.filename)))
+
         # 处理POST请求中接收的图像
         img = base64_to_pil(request.json)
+
+        img = request.files['file']
 
         # 预留：向 get_string_from_api1 发送图片，获取一个string
 

@@ -19,6 +19,13 @@ import requests
 # 初始化一个Flask应用
 app = Flask(__name__)
 
+# 定义Web应用程序的根路由
+@app.route('/', methods=['GET'])
+def index():
+    #渲染Web应用程序的主页面#
+    image_files = os.listdir('./static/example_data')
+    print(image_files)
+    return render_template('index.html', image_files=image_files)
 
 
 @app.route('/submit_example', methods=['POST'])
@@ -33,6 +40,7 @@ def submit_example():
         return jsonify({'error': 'No selected file'}), 400
 
     # Save the file
+    print(os.path.join('example_data', secure_filename(file.filename)))
     file.save(os.path.join('example_data', secure_filename(file.filename)))
 
     return jsonify({'message': 'File has been saved successfully.'}), 200
@@ -42,22 +50,64 @@ def submit_example():
 
 # 获取图片参数 向api发送 获取一个string
 
-def get_string_from_api1(img):
-    # 向 api.example.com 发送图片
-    response = requests.post('http://api.example.com', data=img)
+import base64
 
-    # 获取返回的字符串
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    if request.method == 'POST':
 
+        # 处理POST请求中接收的图像
+        img = base64_to_pil(request.json)
+
+        # 预留：向 get_string_from_api1 发送图片，获取一个string
+
+        raw_result = img2braille(img)
+
+        # 使用 split_braille_sentences 函数将字符串分割为句子
+
+        split_result = split_braille_sentences(raw_result)
+
+        # 预留：将分割后的句子发送给 get_string_from_api2，获取一个string
+
+        # 使用模型预测结果 [ab]
+        # result = model_predict(img, model)
+        final_result = braille2chinese(split_result)
+        
+        cnp_Result = "" #BtoCNP(final_result)
+
+        eng_Result = "" #BtoENG(final_result)
+
+        result = final_result#太傻了
+        
+        # 返回预测结果
+        return jsonify({'result': result, 'CNP_Result': cnp_Result, 'ENG_Result': eng_Result})
+
+    return None
+
+
+# @app.route('/predict', methods=['POST'])
+# def img2braille(file_path, url='http://localhost:5000/upload'):
+#     img = base64
+#     file_path = 'input.jpg'  # Update this path to the file you want to upload
+
+#     with open(file_path, 'rb') as file:
+#         files = {'file': (file_path, file)}
+#         response = requests.post(url, files=files)
+#     print(f'Status Code: {response.status_code}')
+#     print(f'Response: {response.text}')
+#     return response.text
+
+def img2braille(img64):
+    url= 'http://localhost:5000/upload')
+      # Update this path to the file you want to upload
+    response = requests.post(url,img64)
+
+    print(f'Status Code: {response.status_code}')
+    print(f'Response: {response.text}')
     return response.text
 
-# 获取一个列表，每一次发送一个string，返回一个string，最后将所有string拼接在一起
 
-def get_string_from_api2(string_list):
-    result = ""
-    for string in string_list:
-        response = requests.post('http://api2.example.com', data=string)
-        result += response.text
-    return result
+# 获取一个列表，每一次发送一个string，返回一个string，最后将所有string拼接在一起
 
 def split_braille_sentences(input_string):
     # 定义 Braille 标点符号
@@ -89,28 +139,33 @@ def split_braille_sentences(input_string):
     
     return result
 
+def braille2chinese(string_list):
+    result = ""
+    url = "http://localhost:5000/upload"
+    for string in string_list:
+        response = requests.post(url, data=string)
+        result += response.text
+    return result
+
+
+
 # 运行Flask应用程序的主入口点
 if __name__ == '__main__':
     # 使用gevent WSGI服务器提供应用
-    app.debug = True
-    http_server = WSGIServer(('0.0.0.0', 5000), DebuggedApplication(app, True))
-    http_server.serve_forever()
+    # app.debug = True
+    # http_server = WSGIServer(('0.0.0.0', 5000), DebuggedApplication(app, True))
+    # http_server.serve_forever()
+    app.run(debug=True)
 
 
-    """
+"""
     def model_predict(img, model):
     # 使用模型预测结果 --YOLO
     result = None
     return result
 
 # 这个也不用 0628
-# 定义Web应用程序的根路由
-@app.route('/', methods=['GET'])
-def index():
-    """渲染Web应用程序的主页面。"""
-    image_files = os.listdir('./static/example_data')
-    print(image_files)
-    return render_template('index.html', image_files=image_files)
+
 
 # Henry 240628 1520
 # 前端用的是这个api

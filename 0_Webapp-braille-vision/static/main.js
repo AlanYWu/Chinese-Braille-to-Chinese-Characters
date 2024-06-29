@@ -52,7 +52,7 @@ function submitImage() {
     window.alert("Please select an image before submit.");
     return;
   }
-
+  
   loader.classList.remove("hidden");
   imageDisplay.classList.add("loading");
 
@@ -153,7 +153,7 @@ function predictImage(image) {
         resp.json().then(data => {
           displayResult(data);
         });
-    })
+    }) 
     .catch(err => {
       console.log("An error occured", err.message);
       window.alert("Oops! Something went wrong.");
