@@ -3,18 +3,13 @@ from flask import Flask, redirect, url_for, request, render_template, Response, 
 from werkzeug.utils import secure_filename
 from gevent.pywsgi import WSGIServer
 from werkzeug.debug import DebuggedApplication
+from io import BytesIO
 import os
 import sys
-
-
-
-
-
-
-# 用于数值运算的NumPy库
 import numpy as np
-
 import requests
+import base64
+import uuid
 
 # 初始化一个Flask应用
 app = Flask(__name__)
@@ -46,107 +41,61 @@ def submit_example():
     return jsonify({'message': 'File has been saved successfully.'}), 200
 
 
+# 以下为计算逻辑
+
 # henry 240628 1500
+# henry 240630 0100 
+# 获取图片 向api发送 获取一个盲文string 拆分string 翻译为中文
+# 定义图片保存的目录
+# 定义图片保存的目录
+UPLOAD_FOLDER = 'uploads'
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
-# 获取图片参数 向api发送 获取一个string
+def upload_file(file_path, url):
+    with open(file_path, "rb") as file:
+        files = {"file": (file_path, file)}
+        response = requests.post(url, files=files)
+        return response
 
-import base64
-
-@app.route('/predict', methods=['GET', 'POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
-    if request.method == 'POST':
-
-        # 处理POST请求中接收的图像
-        img = base64_to_pil(request.json)
-
-        # 预留：向 get_string_from_api1 发送图片，获取一个string
-
-        raw_result = img2braille(img)
-
-        # 使用 split_braille_sentences 函数将字符串分割为句子
-
-        split_result = split_braille_sentences(raw_result)
-
-        # 预留：将分割后的句子发送给 get_string_from_api2，获取一个string
-
-        # 使用模型预测结果 [ab]
-        # result = model_predict(img, model)
-        final_result = braille2chinese(split_result)
-        
-        cnp_Result = "" #BtoCNP(final_result)
-
-        eng_Result = "" #BtoENG(final_result)
-
-        result = final_result#太傻了
-        
-        # 返回预测结果
-        return jsonify({'result': result, 'CNP_Result': cnp_Result, 'ENG_Result': eng_Result})
-
-    return None
-
-
-# @app.route('/predict', methods=['POST'])
-# def img2braille(file_path, url='http://localhost:5000/upload'):
-#     img = base64
-#     file_path = 'input.jpg'  # Update this path to the file you want to upload
-
-#     with open(file_path, 'rb') as file:
-#         files = {'file': (file_path, file)}
-#         response = requests.post(url, files=files)
-#     print(f'Status Code: {response.status_code}')
-#     print(f'Response: {response.text}')
-#     return response.text
-
-
-def img2braille(img64):
-    url= 'http://localhost:5000/upload'
-      # Update this path to the file you want to upload
-    response = requests.post(url,img64)
-
-    print(f'Status Code: {response.status_code}')
-    print(f'Response: {response.text}')
-    return response.text
-
-
-# 获取一个列表，每一次发送一个string，返回一个string，最后将所有string拼接在一起
-
-def split_braille_sentences(input_string):
-    # 定义 Braille 标点符号
-    braille_punctuation = {"⠐⠆": ".", "⠐⠄": "?", "⠰⠂": "!"}
-    
-    # 初始化临时字符串和结果列表
-    temp_sentence = ""
-    result = []
-    
-    # 遍历输入字符串中的每个字符
-    i = 0
-    while i < len(input_string):
-        # 检查是否遇到 Braille 标点符号
-        for braille_symbol, punctuation in braille_punctuation.items():
-            if input_string[i:i+len(braille_symbol)] == braille_symbol:
-                # 如果遇到标点符号，将当前句子添加到结果列表
-                result.append(temp_sentence.strip() + punctuation)
-                temp_sentence = ""
-                i += len(braille_symbol)
-                break
+    try:
+        # 从请求中获取Base64编码的图片数据
+        if request.is_json:
+            request_data = request.get_json()
+            image_data = request_data.get('image', '')
         else:
-            # 如果没有遇到标点符号，则添加当前字符到临时字符串
-            temp_sentence += input_string[i]
-            i += 1
-    
-    # 添加最后一个句子（如果有的话）
-    if temp_sentence.strip():
-        result.append(temp_sentence.strip())
-    
-    return result
+            return jsonify({'error': 'Request must be JSON format'}), 400
 
-def braille2chinese(string_list):
-    result = ""
-    url = "http://localhost:5000/upload"
-    for string in string_list:
-        response = requests.post(url, data=string)
-        result += response.text
-    return result
+        if not image_data:
+            return jsonify({'error': 'No image data provided'}), 400
+
+        # 检查并去掉数据头(data:image/jpeg;base64,)
+        if image_data.startswith('data:image/jpeg;base64,'):
+            image_data = image_data.replace('data:image/jpeg;base64,', '')
+        elif image_data.startswith('data:image/png;base64,'):
+            image_data = image_data.replace('data:image/png;base64,', '')
+
+        # 解码Base64编码的数据
+        image_binary = base64.b64decode(image_data)
+
+        # 保存解码后的数据为图片文件
+        img_path = os.path.join(UPLOAD_FOLDER, 'uploaded_image.jpg')
+        with open(img_path, 'wb') as f:
+            f.write(image_binary)
+
+
+        url = "http://49.233.9.116:6700/image_to_chinese"
+
+        result = upload_file(img_path, url)
+        
+        # os.remove(img_path)
+        
+        return jsonify({'result': result.json(), 'CNP_Result': '', 'ENG_Result': ''})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 
@@ -159,6 +108,12 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
+
+##################################################################
+
+
+
+##################################################################
 """
     def model_predict(img, model):
     # 使用模型预测结果 --YOLO
