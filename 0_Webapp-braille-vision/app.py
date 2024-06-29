@@ -97,8 +97,9 @@ def predict():
 #     print(f'Response: {response.text}')
 #     return response.text
 
+
 def img2braille(img64):
-    url= 'http://localhost:5000/upload')
+    url= 'http://localhost:5000/upload'
       # Update this path to the file you want to upload
     response = requests.post(url,img64)
 
