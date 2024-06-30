@@ -140,7 +140,7 @@ function previewFile(file) {
 // Helper functions
 //========================================================================
 
-function predictImage(image, retries = 3, timeout = 50000) {
+function predictImage(image, retries = 3, timeout = 5000000) {
   const controller = new AbortController();
   const signal = controller.signal;
 
