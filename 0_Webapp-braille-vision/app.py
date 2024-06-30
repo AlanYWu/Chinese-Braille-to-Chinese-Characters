@@ -1,7 +1,7 @@
 # Flask网络框架和用于处理HTTP请求和响应的工具
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect
 from werkzeug.utils import secure_filename
-from gevent.pywsgi import WSGIServer
+# from gevent.pywsgi import WSGIServer
 from werkzeug.debug import DebuggedApplication
 from io import BytesIO
 import os
