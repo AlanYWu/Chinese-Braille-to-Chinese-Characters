@@ -1,68 +1,73 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
 
-<div class="main">
-  <div class="title">
-    <h3>Vision Braille<br>盲文->汉字深度学习转换器</h3> -->
+<div class="main container mx-auto py-8">
+  <div class="title text-center mb-6">
+    <h3 class="text-3xl font-bold">
+      Vision Braille<br>
+      盲文->汉字深度学习转换器
+    </h3>
   </div>
 
-  <p align="center">
-    📃 <a href="https://arxiv.org/" target="_blank">[Paper]</a> • 💻 <a href="https://github.com/" target="_blank">[Github]</a> • 🤗 <a href="https://huggingface.co/datasets/Violet-yo/Chinese-Braille-Dataset-10per-Tone" target="_blank">[Dataset]</a> • ⚙️ <a href="https://huggingface.co/Violet-yo/mt5-small-ft-Chinese-Braille" target="_blank">[Model]</a> • 🎬 <a href="https://vision-braille.com/" target="_blank">[Demo]</a>
-  </p>
+  <div class="flex justify-center space-x-4 mb-8">
+    <a href="https://arxiv.org/" target="_blank" class="text-blue-500 hover:underline">📃 [Paper]</a>
+    <a href="https://github.com/" target="_blank" class="text-blue-500 hover:underline">💻 [Github]</a>
+    <a href="https://huggingface.co/datasets/Violet-yo/Chinese-Braille-Dataset-10per-Tone" target="_blank" class="text-blue-500 hover:underline">🤗 [Dataset]</a>
+    <a href="https://huggingface.co/Violet-yo/mt5-small-ft-Chinese-Braille" target="_blank" class="text-blue-500 hover:underline">⚙️ [Model]</a>
+    <a href="https://vision-braille.com/" target="_blank" class="text-blue-500 hover:underline">🎬 [Demo]</a>
+  </div>
+
+  <div class="flex justify-center w-full">
+    <div class="w-1/3 flex flex-col items-center p-4 m-4">
+      <div class="flex-1 flex flex-col items-center">
+		<label class="text-gray-600"> example picture(s) </label>
+        <div id="example-images" class="flex-1">
+          {% for image_file in image_files %}
+          <button type="button" onclick="selectImage('{{ url_for('static', filename='example_data/' + image_file) }}')" class="border rounded overflow-hidden w-full">
+            <img src="{{ url_for('static', filename='example_data/' + image_file) }}" class="w-40 h-40" alt="Example image">
+          </button>
+          {% endfor %}
+        </div>
+
+        <div class="panel text-center my-4">
+          <input id="file-upload" class="hidden" type="file" accept="image/x-png,image/gif,image/jpeg" />
+          <label for="file-upload" id="file-drag" class="upload-box border-dashed border-2 border-gray-300 p-6 rounded cursor-pointer hover:bg-gray-100">
+            <div id="upload-caption" class="text-gray-600">Drop image here or click to select</div>
+            <img id="image-preview" class="hidden mt-4 mx-auto" />
+          </label>
+        </div>
+        <div class="flex justify-center space-x-4 mb-8">
+          <input type="button" value="Submit" class="button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onclick="submitImage();" />
+          <input type="button" value="Clear" class="button bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600" onclick="clearImage();" />
+        </div>
+      </div>
+    </div>
+
+	
+    <div class="w-2/3 flex flex-col items-center p-4 m-4">
+		<label class="text-gray-600">预测结果</label>
+		<div class="w-full h-full border-2 rounded">
+
+			<svg id="loader" class="hidden mx-auto animate-spin" viewBox="0 0 32 32" width="32" height="32">
+				<circle id="spinner" cx="16" cy="16" r="14" fill="none" stroke-width="4" stroke="#000"></circle>
+			</svg>
+			
+			<div id="image-box" class="text-center mb-8 w-full h-full">
+				<img id="image-display" class=" mb-4" />
+			</div>
+
+			<div id="pred-result" class="hidden text-center mb-4"></div>
+			<div id="pred-result-cnp" class="hidden text-center mb-4"></div>
+			<div id="pred-result-eng" class="hidden text-center"></div>
+		</div>
+    </div>
+
+  </div>
 
 
-<!-- Add this div where you want to display the example images -->
-<div id="example-images">
-  {% for image_file in image_files %}
-    <button type="button" onclick="selectImage('{{ url_for('static', filename='example_data/' + image_file) }}')">
-        <img src="{{ url_for('static', filename='example_data/' + image_file) }}" height="200" alt="Example image">
-    </button>
-  {% endfor %}
 </div>
 
-
-<!-- Modify your form to include a hidden input field for the selected image -->
-<!-- <form id="example-data-form" method="post" enctype="multipart/form-data"> -->
-  <!-- <input type="hidden" id="selected-image" name="selected_image"> -->
-  <!-- <input type="file" id="example-data-file" name="file" onchange="previewFile_example()"> -->
-  <!-- <input type="submit" value="Submit Example Data"> -->
-<!-- </form> -->
-
-  <div class="panel">
-    <input id="file-upload" class="hidden" type="file" accept="image/x-png,image/gif,image/jpeg" />
-    <label for="file-upload" id="file-drag" class="upload-box">
-      <div id="upload-caption">Drop image here or click to select</div>
-      <img id="image-preview" class="hidden" />
-    </label>
-  </div>
-  <div style="margin-bottom: 2rem;">
-    <input type="button" value="Submit" class="button" onclick="submitImage();" />
-    <input type="button" value="Clear" class="button" onclick="clearImage();" />
-  </div>
-
-  <div id="image-box">
-    <img id="image-display" />
-    <div id="pred-result" class="hidden"></div>
-    <svg id="loader" class="hidden" viewBox="0 0 32 32" width="32" height="32">
-      <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
-    </svg>
-  </div>
-
-  <div id="pred-result-cnp" class="hidden"></div>
-  <div id="pred-result-eng" class="hidden"></div>
-
-  
+<div class="w-full bg-gray-100">
+<a class="text-sm text-gray-600 m-4">In 2024, Alan Wu and related researchers constructed a prediction model, with WaOrTLE participating in the website construction.</a>
 </div>
-
-<!--- 翻译 --->>
-<div style="display: flex; justify-content: center; align-items: center; height: 5vh;">
-  <form id="input-form">
-    <input type="text" id="user-input" placeholder="Enter your pinyin input here">
-    <p>The translation process takes about 10 seconds</p>
-    <button type="button" onclick="py_translate(document.getElementById('user-input').value); document.getElementById('user-input').value = '';">Send</button>
-  </form>
-  
-</div>
-
-<div id="result"></div>  
-<!-- 这里应该怎么改？ -->
 {% endblock %}
