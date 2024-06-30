@@ -140,24 +140,46 @@ function previewFile(file) {
 // Helper functions
 //========================================================================
 
-function predictImage(image) {
-  fetch("/predict", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(image)
-  })
-    .then(resp => {
-      if (resp.ok)
-        resp.json().then(data => {
-          displayResult(data);
-        });
-    }) 
-    .catch(err => {
-      console.log("An error occured", err.message);
-      window.alert("Oops! Something went wrong.");
-    });
+function predictImage(image, retries = 3, timeout = 50000) {
+  const controller = new AbortController();
+  const signal = controller.signal;
+
+  const fetchData = () => {
+    fetch("/predict", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(image),
+      signal
+    })
+      .then(resp => {
+        if (resp.ok) {
+          return resp.json().then(data => {
+            displayResult(data);
+          });
+        } else {
+          return resp.json().then(errData => {
+            throw new Error(`Server error: ${resp.status} - ${errData.message}`);
+          });
+        }
+      })
+      .catch(err => {
+        if (retries > 0) {
+          console.log(`Retrying... attempts left: ${retries - 1}`);
+          setTimeout(() => fetchData(), 1000); // Retry after 1 second
+        } else {
+          console.log("An error occurred", err.message);
+          window.alert("Oops! Something went wrong. Please try again later.");
+        }
+      });
+  };
+  const fetchTimeout = setTimeout(() => {
+    controller.abort();
+    window.alert("Request timed out. Please refresh this page or try again later.");
+  }, timeout);
+
+  fetchData();
 }
 
 
@@ -197,14 +219,16 @@ function displayImage(image, id) {
 
 function displayResult(data) {
   // display the result
-  // imageDisplay.classList.remove("loading");
+  hide(imagePreview);
+  hide(imageDisplay);
+
   hide(loader);
   predResult.innerHTML = data.result;
   show(predResult);
-  predResultCNP.innerHTML = data.CNP_Result;
-  show(predResultCNP);
-  predResultENG.innerHTML = data.ENG_Result;
-  show(predResultENG);
+  //predResultCNP.innerHTML = data.CNP_Result;
+  //show(predResultCNP);
+  //predResultENG.innerHTML = data.ENG_Result;
+  //show(predResultENG);
 
 }
  
