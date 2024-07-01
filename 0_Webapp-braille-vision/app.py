@@ -14,6 +14,7 @@ import logging
 
 # 初始化一个Flask应用
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB
 
 # 定义Web应用程序的根路由
 @app.route('/', methods=['GET'])

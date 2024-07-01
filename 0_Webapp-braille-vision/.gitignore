@@ -24,4 +24,4 @@ instance/
 
 # Custom data directory
 uploads/*
-nohup
+nohup.out

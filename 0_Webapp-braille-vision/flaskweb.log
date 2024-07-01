@@ -43,3 +43,33 @@ uWSGI running as root, you can use --uid/--gid/--chroot options
 *** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
 chdir() to /root/Chinese-Braille-to-Chinese-Characters/0_Webapp-braille-vision  // 项目地址
 chdir(): No such file or directory [core/uwsgi.c line 2628]
+*** Starting uWSGI 2.0.23 (64bit) on [Mon Jul  1 11:53:44 2024] ***
+compiled with version: 8.5.0 20210514 (Red Hat 8.5.0-18) on 03 November 2023 19:27:02
+os: Linux-4.18.0-536.el8.x86_64 #1 SMP Thu Jan 18 15:15:29 UTC 2024
+nodename: HollowData
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 4
+current working directory: /root/Chinese-Braille-to-Chinese-Characters/0_Webapp-braille-vision
+writing pidfile to uwsgi.pid
+detected binary path: /usr/sbin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/Chinese-Braille-to-Chinese-Characters/0_Webapp-braille-vision  // 项目地址
+chdir(): No such file or directory [core/uwsgi.c line 2628]
+*** Starting uWSGI 2.0.23 (64bit) on [Mon Jul  1 11:53:53 2024] ***
+compiled with version: 8.5.0 20210514 (Red Hat 8.5.0-18) on 03 November 2023 19:27:02
+os: Linux-4.18.0-536.el8.x86_64 #1 SMP Thu Jan 18 15:15:29 UTC 2024
+nodename: HollowData
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 4
+current working directory: /root/Chinese-Braille-to-Chinese-Characters/0_Webapp-braille-vision
+writing pidfile to uwsgi.pid
+detected binary path: /usr/sbin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/Chinese-Braille-to-Chinese-Characters/0_Webapp-braille-vision  // 项目地址
+chdir(): No such file or directory [core/uwsgi.c line 2628]
